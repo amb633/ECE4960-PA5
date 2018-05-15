@@ -124,6 +124,7 @@ void addVectors( vector<double>* vector_1 , vector<double>* vector_2 , vector<do
 }
 
 void vectorSum(vector<double>* A, vector<double>* B, vector<double>* result){
+	if ( (*result).empty() ) zeroVector( (*A).size() , result );
     for( int i = 0; i<(*A).size(); i++){
         (*result)[i] = ((*A)[i] + (*B)[i]);
     }
@@ -143,8 +144,10 @@ void multiplyVectors( vector<double>* vector_1 , vector<double>* vector_2 , vect
         cout << "vectors have different dimensions... cannot multiply them togther! " << endl;
 		return;
 	}
+	if ( (*product).empty() ) zeroVector( (*vector_1).size() , product );
 	for ( int i = 0 ; i < (*vector_1).size() ; i++ ){
-		(*product).push_back( (*vector_1)[i] * (*vector_2)[i] );
+		(*product)[i] = (*vector_1)[i] * (*vector_2)[i] ;
+		// (*product).push_back( (*vector_1)[i] * (*vector_2)[i] );
 	}
 }
 
@@ -161,8 +164,10 @@ void scaleVector( double scalar, vector<double>* a,  vector<double>* result)
 void shiftVector( double scalar, vector<double>* a,  vector<double>* result)
 {
 	// adds a constant to all th elements in a vector
+	if ( (*result).empty() ) zeroVector( (*a).size() , result );
     for( int i = 0; i<(*a).size(); i++){
-        (*result).push_back((*a)[i] + scalar);
+    	(*result)[i] = ((*a)[i]) + scalar;
+		// (*result).push_back((*a)[i] + scalar);
     }
 }
 
