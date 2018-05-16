@@ -18,42 +18,42 @@ int main ( void )
 	space_system space;
 	create_system ( &bodies , &space );
 
-	// check if the transformation is correct
-	cout << "...testing if transformation is correct... " << endl;
-	cout << endl << "planet masses are : " << endl;
-	printVector( &(space.n_mass) );
-	cout << endl << endl << "n_state of space :" << endl;
-	printMatrix( &(space.n_state) );
-	cout << endl << endl << "n_state_dot of space :" << endl;
-	printMatrix( &(space.n_state_dot) );
-	cout << endl << endl;
+    // check if the transformation is correct
+    cout << "...testing if transformation is correct... " << endl;
+    cout << endl << "planet masses are : " << endl;
+    printVector( &(space.n_mass) );
+    cout << endl << endl << "n_state of space :" << endl;
+    printVector( &(space.n_state) );
+    cout << endl << endl << "n_state_dot of space :" << endl;
+    printVector( &(space.n_state_dot) );
+    cout << endl << endl;
 
-	// transform from space system back to body system
-	cout << "...testing if reverse transformation is correct... " << endl;
-	vector<body> bodies_resolved;
-	resolve_system( &space , &bodies_resolved );
-	for ( int i = 0 ; i < bodies_resolved.size() ; i++ ){
-		print_body( &bodies_resolved[i] );
-	}
+    // transform from space system back to body system
+    cout << "...testing if reverse transformation is correct... " << endl;
+    vector<body> bodies_resolved;
+    resolve_system( &space , &bodies_resolved );
+    for ( int i = 0 ; i < bodies_resolved.size() ; i++ ){
+        print_body( &bodies_resolved[i] );
+    }
 
-	cout << "...testing if acceleration function is correct... " << endl;
-	bodies.pop_back();
-	vector<double> acceleration_a;
-	space_system space_two;
-	create_system( &bodies , &space_two );
-	find_state_dot( 0.0 , 0 , &space_two.n_mass, &space_two.n_state , &acceleration_a );
-	cout << " acceleration of A in 02 body system : ";
-	printVector( &acceleration_a );
-	
-	find_state_dot( 0.0 , 0 , &space.n_mass, &space.n_state , &acceleration_a );
-	cout << " acceleration of A in 03 body system : ";
-	printVector( &acceleration_a );
+    cout << "...testing if acceleration function is correct... " << endl;
+    bodies.pop_back();
+    vector<double> acceleration_a;
+    space_system space_two;
+    create_system( &bodies , &space_two );
+    find_state_dot( 0.0 , &space_two.n_mass, &space_two.n_state , &acceleration_a );
+    cout << " acceleration of A in 02 body system : ";
+    printVector( &acceleration_a );
 
-	cout << endl << endl;
+    find_state_dot( 0.0 , &space.n_mass, &space.n_state , &acceleration_a );
+    cout << " acceleration of A in 03 body system : ";
+    printVector( &acceleration_a );
 
-	cout << " --------------- Testing ODE Solver Functions --------------- " << endl;
+    cout << endl << endl;
+
+    cout << " --------------- Testing ODE Solver Functions --------------- " << endl;
 
 
-	cout << endl;
-	return 0;
+    cout << endl;
+    return 0;
 }

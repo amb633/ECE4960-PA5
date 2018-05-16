@@ -22,8 +22,8 @@ struct body
 struct space_system
 {
 	vector<double> n_mass;
-	vector<vector<double>> n_state;
-	vector<vector<double>> n_state_dot;
+	vector<double> n_state;
+	vector<double> n_state_dot;
 };
 
 void print_body( body* which_body );
@@ -31,4 +31,4 @@ void print_body( body* which_body );
 void clear_system( space_system* space );
 void create_system ( vector<body>* bodies , space_system* space );
 void resolve_system( space_system* space , vector<body>* bodies );
-void find_state_dot( double time , int which_body , vector<double>* body_masses , vector<vector<double>>* body_positions , vector<double>* acceleration );
+void find_state_dot( double time , vector<double>* body_masses , vector<double>* body_positions , vector<double>* acceleration );
