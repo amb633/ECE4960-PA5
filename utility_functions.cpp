@@ -53,6 +53,8 @@ void zeroMatrix( int rank , vector<vector<double>>* z )
 void zeroVector( int rank , vector<double>* v )
 {
 	// function to create zero vector of size rank
+
+	(*v).erase( (*v).begin(), (*v).end());
 	for ( int i = 0 ; i < rank ; i++ ){
 		(*v).push_back(0.0);
 	}
