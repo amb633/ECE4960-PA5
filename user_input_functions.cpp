@@ -40,7 +40,7 @@ void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step
     else if(ODE_Solver_method_name == "RK34"){ ODE_Solver_method = 3; }
     else if(ODE_Solver_method_name == "RK34A"){ ODE_Solver_method = 4; }
     else{
-        cout << "   ** did not choose an available ODE solver method, using default: RK34 **" << endl;
+        cout << "   ** did not choose a valid ODE solver method, using default: RK34 **" << endl;
         ODE_Solver_method = 3;
     }
 

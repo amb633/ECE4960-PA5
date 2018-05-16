@@ -8,26 +8,6 @@
 
 int main ( void )
 {
-    
-    cout << " --------------- Testing User Interface --------------- " << endl << endl;
-    string file_path;
-    cout << "Enter file path for planetary system's data: " << endl;
-//    cin >> file_path;
-//    file_path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test1.txt";
-    file_path = "user_input/test1.txt";
-    vector<body> bodies_user_input_file;
-    
-    parseInput( &file_path, &bodies_user_input_file);
-    for ( int i = 0 ; i < bodies_user_input_file.size() ; i++ ) {
-        print_body( &bodies_user_input_file[i] );
-    }
-    
-    cout << endl;
-    int ODE_Solver_method;
-    double end_time_input, time_step_input;
-    getSolverInput( ODE_Solver_method, end_time_input, time_step_input );
-    
-    
 	cout << endl << boolalpha;
 	cout << " --------------- Testing Celestial Body Functions --------------- " << endl << endl;
 
@@ -94,6 +74,26 @@ int main ( void )
 	// }
 
 	cout << endl;
+    
+    cout << " --------------- Using User Interface to Create Solar System --------------- " << endl << endl;
+    string file_path;
+    cout << "Enter file path for planetary system's data: " << endl;
+    //    cin >> file_path;
+    file_path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test1.txt";
+//    file_path = "user_input/test1.txt";
+    vector<body> bodies_user_input_file;
+    
+    parseInput( &file_path, &bodies_user_input_file);
+    for ( int i = 0 ; i < bodies_user_input_file.size() ; i++ ) {
+        print_body( &bodies_user_input_file[i] );
+    }
+    
+    cout << " --------------- Using User Interface to collect Solver Information --------------- " << endl << endl;
+    cout << endl;
+    int ODE_Solver_method;
+    double end_time_input, time_step_input;
+    getSolverInput( ODE_Solver_method, end_time_input, time_step_input );
+    
 
 	return 0;
 }
