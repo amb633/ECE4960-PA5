@@ -8,30 +8,8 @@
 
 int main ( void )
 {
-//    int n_planets;
-//    cout << "Enter the number of planets: " << endl;
-//    cin >> n_planets;
-//
-//    vector<body> bodies_user_input;
-//
-//    for(int planet = 0; planet< n_planets; planet++){
-//
-//        double planet_mass = 0;
-//        double position;
-//        vector<double> planet_position;
-//        cout << "Enter planet #" << planet << " mass: " << endl;
-//        cin >> planet_mass;
-//        cout << "Enter planet position x, y, z : " << endl;
-//        string line;
-//        getline( cin, line);
-//        istringstream stream(line);
-//        while (stream >> position)
-//            planet_position.push_back(position);
-//        body planet_n( planet_mass, planet_position, planet_position );
-//        bodies_user_input.push_back(planet_n);
-//    }
     
-    cout << " --------------- Creating the Inner Solar System --------------- " << endl << endl;
+    cout << " --------------- Testing User Interface --------------- " << endl << endl;
     string file_path;
     cout << "Enter file path for planetary system's data: " << endl;
 //    cin >> file_path;
@@ -45,7 +23,10 @@ int main ( void )
     }
     
     cout << endl;
-
+    int ODE_Solver_method;
+    double end_time_input, time_step_input;
+    getSolverInput( ODE_Solver_method, end_time_input, time_step_input );
+    
     
 	cout << endl << boolalpha;
 	cout << " --------------- Testing Celestial Body Functions --------------- " << endl << endl;

@@ -18,5 +18,6 @@
 
 
 void parseInput( string* path, vector<body>* input_bodies);
+void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step );
 
 #endif /* user_input_functions_hpp */

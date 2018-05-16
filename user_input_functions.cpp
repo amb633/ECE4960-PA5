@@ -26,5 +26,27 @@ void parseInput( string* path, vector<body>* input_bodies){
         cout << "Successfully parsed input data " << endl;
     }
     else cout << "Unable to open file " << endl;
+}
 
+void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step ){
+    string ODE_Solver_method_name;
+    cout << "Available ODE Solvers are as follows: " << endl;
+    cout << "   FORWARD_EULER, HEUN_ONE, HEUN_ITR, RK34, RK34A  " << endl;
+    cout << "Enter which ODE Solver to use: " << endl;
+    cin >> ODE_Solver_method_name;
+    if(ODE_Solver_method_name == "FORWARD_EULER"){ ODE_Solver_method = 0; }
+    else if(ODE_Solver_method_name == "HEUN_ONE"){ ODE_Solver_method = 1; }
+    else if(ODE_Solver_method_name == "HEUN_ITR"){ ODE_Solver_method = 2; }
+    else if(ODE_Solver_method_name == "RK34"){ ODE_Solver_method = 3; }
+    else if(ODE_Solver_method_name == "RK34A"){ ODE_Solver_method = 4; }
+    else{
+        cout << "   ** did not choose an available ODE solver method, using default: RK34 **" << endl;
+        ODE_Solver_method = 3;
+    }
+
+    cout << "Enter the time duration to run your system (in terms of days): " << endl;
+    cin >> end_time;
+
+    cout << "Enter the time step to solve your system (in terms of days): " << endl;
+    cin >> time_step;
 }
