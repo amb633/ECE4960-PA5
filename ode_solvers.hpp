@@ -4,6 +4,7 @@
 #define FORWARD_EULER 0
 #define HEUN_ONE 1
 #define RK34 2
+#define RK34A 3
 
 namespace ode_solvers
 {

@@ -4,29 +4,28 @@ void ode_solvers::ODE_SOLVER( void (*function) ( double , vector<double>* , vect
 	double time , double& march , vector<double>* parameters , vector<double>* input ,
 	vector<double>* new_values , int method , bool adaptive , double e_rel , double e_abs )
 {
+	vector<double> phi , update;
+
 	switch (method){
 		case FORWARD_EULER:{
-			vector<double> phi , update;
 			forward_euler( function , time , march , parameters , input , &phi );
-			scaleVector( march , &phi , &update );
-			vectorSum( input , &update , new_values );
 			break;
 		}
 		case HEUN_ONE: {
-			vector<double> phi , update;
 			heun_oneStep( function , time , march , parameters , input , &phi );
-			scaleVector( march , &phi , &update );
-			vectorSum( input , &update , new_values );
 			break;
 		}
 		case RK34: {
-			vector<double> phi , update;
-			rk34( function , time , march , parameters , input , &phi , adaptive , e_rel , e_abs );
-			scaleVector( march , &phi , &update );
-			vectorSum( input , &update , new_values );
+			rk34( function , time , march , parameters , input , &phi , false , e_rel , e_abs );
+			break;
+		}
+		case RK34A: {
+			rk34( function , time , march , parameters , input , &phi , true , e_rel , e_abs );
 			break;
 		}
 	}
+	scaleVector( march , &phi , &update );
+	vectorSum( input , &update , new_values );
 	return;
 }
 
