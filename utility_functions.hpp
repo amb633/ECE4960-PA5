@@ -18,7 +18,6 @@ void matrixProduct( vector<vector<double>>* matrix_1 , vector<vector<double>>* m
 void vectorProduct( vector<vector<double>>* matrix_1 , vector<double>* vector_1 , vector<double>* result );
 void vectorProduct( vector<double>* diagMat , vector<double>* vec, vector<double>* result );
 
-void addVectors( vector<double>* vector_1 , vector<double>* vector_2 , vector<double>* sum );
 void vectorSum(vector<double>* A, vector<double>* B, vector<double>* result); //inplace sum (result can be vector A or B);
 void vectorDiff( vector<double>* A , vector<double>* B , vector<double>* result ); 
 void multiplyVectors( vector<double>* vector_1 , vector<double>* vector_2 , vector<double>* product );

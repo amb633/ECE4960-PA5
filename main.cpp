@@ -2,6 +2,20 @@
 #include "celestial_body_functions.hpp"
 #include "ode_solvers.hpp"
 
+void ode_exponential_function ( double time , vector<double>* parameters , 
+	vector<double>* input , vector<double>* output )
+{
+	double a = (*parameters)[0];
+	double b = (*parameters)[1];
+	double c = (*parameters)[2];
+	vector<double> temp;
+	double exp_comp = a*exp( b*time );
+	scaleVector( -0.5 , input , &temp );
+	shiftVector( exp_comp , &temp , output );
+	return;
+}
+
+
 int main ( void )
 {
 	cout << endl;
@@ -51,9 +65,51 @@ int main ( void )
 
     cout << endl << endl;
 
-    cout << " --------------- Testing ODE Solver Functions --------------- " << endl;
+	cout << " --------------- Testing ODE Solver Functions --------------- " << endl;
+	cout << "...testing forward euler... " << endl;
+	void (*ode_exp_fcn)( double , vector<double>* , vector<double>* , vector<double>* ) = ode_exponential_function;
+	double march = 1.0;
+	vector<double> parameters = { 4.0 , 0.8 , -0.5 };
+	vector<double> old_values = {2.0};
+	for ( double time = 0.0 ; time < 5.0 ; time += march ){
+		vector<double> new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , FORWARD_EULER );
+		printVector( &new_values );
+		old_values.erase( old_values.begin() , old_values.end() );
+		old_values = new_values;
+	}
+
+	cout << "...testing heun one step... " << endl;
+	old_values = {2.0};
+	for ( double time = 0.0 ; time < 5.0 ; time += march ){
+		vector<double> new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , HEUN_ONE );
+		printVector( &new_values );
+		old_values.erase( old_values.begin() , old_values.end() );
+		old_values = new_values;
+	}
+
+	cout << "...testing non adaptive rk34... " << endl;
+	old_values = {2.0};
+	for ( double time = 0.0 ; time < 5.0 ; time += march ){
+		vector<double> new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , RK34 );
+		printVector( &new_values );
+		old_values.erase( old_values.begin() , old_values.end() );
+		old_values = new_values;
+	}
+
+	cout << "...testing adaptive rk34... " << endl;
+	old_values = {2.0};
+	for ( double time = 0.0 ; time < 5.0 ; time += march ){
+		vector<double> new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , RK34 , true );
+		printVector( &new_values );
+		old_values.erase( old_values.begin() , old_values.end() );
+		old_values = new_values;
+	}
 
 
-    cout << endl;
-    return 0;
+	cout << endl;
+	return 0;
 }

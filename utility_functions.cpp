@@ -113,18 +113,6 @@ void vectorProduct( vector<double>* diagMat , vector<double>* vec , vector<doubl
     }
 }
 
-void addVectors( vector<double>* vector_1 , vector<double>* vector_2 , vector<double>* sum )
-{
-	// returns element wise addition of sum[i] = vector_1[i] + vector_2[i]
-	if ( (*vector_1).size() != (*vector_2).size() ){
-        cout << "vectors have different dimensions... cannot add them togther! " << endl;
-		return;
-	}
-	for ( int i = 0 ; i < (*vector_1).size() ; i++ ){
-		(*sum).push_back( (*vector_1)[i] + (*vector_2)[i] );
-	}
-}
-
 void vectorSum(vector<double>* A, vector<double>* B, vector<double>* result){
 	if ( (*result).empty() ) zeroVector( (*A).size() , result );
     for( int i = 0; i<(*A).size(); i++){

@@ -1,37 +1,124 @@
 #include "ode_solvers.hpp"
 
-// void ode_exponential_function( double time , int dummy_int , vector<double>* params , 
-// 	vector<vector<double>>* inputs , vector<vector<double>>* outputs )
-// {
-// 	double a = (*params)[0];
-// 	double b = (*params)[1];
-// 	double c = (*params)[2];
-
-		
-// }
-
-void ode_solvers::ODE_SOLVER( void (*function)(double, int , vector<double>* , vector<vector<double>>* , vector<double>* ),
-	double time , double march , vector<double>* parameters /*masses*/ , vector<vector<double>>* inputs /*positions*/ , 
-	vector<vector<double>>* slopes /*state_dots*/ , int method )
+void ode_solvers::ODE_SOLVER( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
+	double time , double& march , vector<double>* parameters , vector<double>* input ,
+	vector<double>* new_values , int method , bool adaptive , double e_rel , double e_abs )
 {
-
-}
-
-void ode_solvers::forward_euler ( void (*function)( double, int , vector<double>* , vector<vector<double>>* , vector<double>* ) ,
-	double time , double march , vector<double>* parameters , vector<vector<double>>* input , 
-	vector<vector<double>>* slopes )
-{
-	for ( int i = 0 ; i < (*input).size() ; i++ ){
-		vector<double> phi;
-		function( time , i , parameters , input , &phi);
-		(*slopes).push_back( phi );
+	switch (method){
+		case FORWARD_EULER:{
+			vector<double> phi , update;
+			forward_euler( function , time , march , parameters , input , &phi );
+			scaleVector( march , &phi , &update );
+			vectorSum( input , &update , new_values );
+			break;
+		}
+		case HEUN_ONE: {
+			vector<double> phi , update;
+			heun_oneStep( function , time , march , parameters , input , &phi );
+			scaleVector( march , &phi , &update );
+			vectorSum( input , &update , new_values );
+			break;
+		}
+		case RK34: {
+			vector<double> phi , update;
+			rk34( function , time , march , parameters , input , &phi , adaptive , e_rel , e_abs );
+			scaleVector( march , &phi , &update );
+			vectorSum( input , &update , new_values );
+			break;
+		}
 	}
 	return;
 }
 
-void ode_solvers::heun_oneStep ( void (*function) ( double , int , vector<double>* , vector<vector<double>>* , vector<double>* ) ,
-	double time , double march , vector<double>* parameters , vector<vector<double>>* input , 
-	vector<vector<double>>* slopes )
+void ode_solvers::forward_euler( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
+	double time , double& march , vector<double>* parameters , vector<double>* input ,
+	vector<double>* slope )
 {
+	function( time , parameters , input , slope );
+	return;
+}
 
+void ode_solvers::heun_oneStep( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
+	double time , double& march , vector<double>* parameters , vector<double>* input ,
+	vector<double>* slope )
+{
+	vector<double> f1 , f2 , eu , predict , sum;
+
+	// predict using the forward_euler method
+	forward_euler( function , time , march , parameters , input , &eu );
+	scaleVector( march , &eu , &eu );
+	vectorSum( input , &eu , &predict );
+
+	function( time , parameters , input , &f1 );
+	function( time + march , parameters , &predict , &f2 );
+
+	vectorSum( &f1 , &f2 , &sum );
+	scaleVector( 0.5 , &sum , slope );
+	return;
+}
+
+void ode_solvers::rk34 ( void (*function)( double , vector<double>* , vector<double>* , vector<double>* ) , 
+	double time , double& march , vector<double>* parameters , vector<double>* input , 
+	vector<double>* slope , bool adaptive , double e_rel , double e_abs )
+{
+	vector<double> k1 , k1h , k2 , k2h , k3 , k3h , k4 , ksum;
+	
+	function ( time , parameters , input , &k1 );
+	
+	scaleVector( 0.5*march , &k1 , &k1h );
+	vectorSum( input , &k1h , &k1h );
+	function( (time + 0.5*march) , parameters , &k1h , &k2 );
+
+	scaleVector( 0.75*march , &k2 , &k2h );
+	vectorSum( input , &k2h , &k2h );
+	function( (time + 0.75*march) , parameters , &k2h , &k3 );
+
+	scaleVector( march , &k3 , &k3h );
+	vectorSum( input , &k3h , &k3h );
+	function( (time + march) , parameters , &k3h , &k4 );
+
+	if ( adaptive ) {
+		double error;
+		rk34_error( k1 , k2 , k3 , k4 , march , error );
+		rk34_new_march( input , error , e_rel , e_abs , march );
+	}
+
+	scaleVector( 7.0 , &k1 , &k1 );
+	scaleVector( 6.0 , &k2 , &k2 );
+	scaleVector( 8.0 , &k3 , &k3 );
+	scaleVector( 3.0 , &k4 , &k4 );
+
+	vectorSum( &k1 , &k2 , &ksum );
+	vectorSum( &k3 , &ksum , &ksum );
+	vectorSum( &k4 , &ksum , &ksum );
+
+	scaleVector( (1.0/24.0) , &ksum , slope );
+	return;
+}
+
+void ode_solvers::rk34_error( vector<double> k1 , vector<double> k2 , vector<double> k3 , vector<double> k4 , double march , double& error ) 
+{
+	scaleVector( -5.0 , &k1 , &k1 );
+	scaleVector( 6.0 , &k2 , &k2 );
+	scaleVector( 8.0 , &k3 , &k3 );
+	scaleVector( -9.0 , &k4 , &k4 );
+
+	vectorSum( &k1 , &k2 , &k2 );
+	vectorSum( &k2 , &k3 , &k3 );
+	vectorSum( &k3 , &k4 , &k4 );
+
+	vector<double> error_vector;
+	scaleVector( march/72.0 , &k4 , &error_vector );
+	vectorNorm( &error_vector , error );
+	return;
+}
+
+void ode_solvers::rk34_new_march ( vector<double>* input , double error , double e_rel , double e_abs , double& march )
+{
+	double xn;
+	vectorNorm( input , xn);
+	double intermediate_value = error/ ( xn + e_abs );
+	intermediate_value = e_rel / intermediate_value;
+	march *= cbrt( intermediate_value );
+	return;
 }
