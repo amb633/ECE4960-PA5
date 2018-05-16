@@ -3,6 +3,7 @@
 void print_body( body* which_body )
 {
 	cout << endl;
+    cout << " name of body : " << (*which_body).name << endl;
 	cout << " mass of body : " << (*which_body).mass << endl;
 	cout << " position of body : " ; printVector( &((*which_body).position) );
 	cout << " velocity of body : " ; printVector( &((*which_body).velocity) );
@@ -13,6 +14,7 @@ void print_body( body* which_body )
 
 void clear_system( space_system* space )
 {
+    (*space).n_name.erase( (*space).n_name.begin(), (*space).n_name.end());
 	(*space).n_mass.erase( (*space).n_mass.begin(), (*space).n_mass.end());
 	(*space).n_state.erase( (*space).n_state.begin(), (*space).n_state.end());
 	(*space).n_state_dot.erase( (*space).n_state_dot.begin(), (*space).n_state_dot.end());
@@ -21,6 +23,7 @@ void clear_system( space_system* space )
 
 void create_system ( vector<body>* bodies , space_system* space )
 {
+    vector<string> name;
 	vector<double> mass;
 	vector<double> state; // p = [ x y z xdot ydot zdot ]
 	vector<double> state_dot;	// pdot = [ xdot ydot zdot xdotdot ydotdot zdotdot ]
@@ -28,6 +31,7 @@ void create_system ( vector<body>* bodies , space_system* space )
 	int n_bodies = (*bodies).size();
 	for ( int i = 0 ; i < n_bodies ; i++ ){
 		
+        name.push_back( (*bodies)[i].name );
 		mass.push_back( (*bodies)[i].mass );
 		
 		vector<double> current_position = (*bodies)[i].position;
@@ -44,6 +48,7 @@ void create_system ( vector<body>* bodies , space_system* space )
 	}
 
 	clear_system( space );
+    (*space).n_name = name;
 	(*space).n_mass = mass;
 	(*space).n_state = state;
 	(*space).n_state_dot = state_dot;
@@ -57,6 +62,7 @@ void resolve_system( space_system* space , vector<body>* bodies )
 	int n_bodies = (*space).n_mass.size();
 	for ( int i = 0 ; i < n_bodies ; i++ ){
 		body current_body;
+        current_body.name = (*space).n_name[i];
 		current_body.mass = (*space).n_mass[i];
         
         int id = i*6;

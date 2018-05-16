@@ -1,7 +1,7 @@
 #include "wrapper.hpp"
 
 void simulate_system( space_system* space , double time , double& march , int method , 
-	bool adaptive = false , double e_rel = 1e-4 , double e_abs = 1e-7 )
+	bool adaptive , double e_rel , double e_abs )
 {
 	vector<double> update;
 	void (*space_function)( double , vector<double>* , vector<double>* , vector<double>* ) = find_state_dot;

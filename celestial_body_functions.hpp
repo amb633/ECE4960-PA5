@@ -4,6 +4,7 @@
 
 struct body
 {
+	string name;
 	double mass;
 	vector<double> position;
 	vector<double> velocity;
@@ -14,13 +15,17 @@ struct body
 	body( double m , vector<double> p , vector<double> v ) : 
 		mass(m) , position(p) , velocity(v) , acceleration( {0.0 , 0.0 , 0.0} ) {};
 
+	body ( string s , double m , vector<double> p , vector<double> v ) :
+		name(s) , mass(m) , position(p) , velocity(v) , acceleration( {0.0 , 0.0 , 0.0} ) {};
+
 	body( body* b ) :
-		mass( (*b).mass ) , position( (*b).position ) , velocity( (*b).velocity ) , acceleration( (*b).acceleration ) {};
+		name( (*b).name ) , mass( (*b).mass ) , position( (*b).position ) , velocity( (*b).velocity ) , acceleration( (*b).acceleration ) {};
 
 };
 
 struct space_system
 {
+	vector<string> n_name;
 	vector<double> n_mass;
 	vector<double> n_state;
 	vector<double> n_state_dot;

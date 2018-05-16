@@ -53,16 +53,34 @@ int main ( void )
 
 
 	cout << " --------------- Creating the Inner Solar System --------------- " << endl << endl;
-	body sun	( 2.0e30 	, { 0.0 , 0.0 , 0.0 } 	 , { 0.0 , 0.0 , 0.0 });
-	body mercury( 3.285e23 	, { 0.0 , 5.7e10 , 0.0 } , { 47000 , 0.0 , 0.0 });
-	body venus 	( 4.8e24 	, { 0.0 , 1.1e11 , 0.0 } , { 35000 , 0.0 , 0.0 });
-	body earth 	( 6.0e24 	, { 0.0 , 1.5e11 , 0.0 } , { 30000 , 0.0 , 0.0 });
-	body mars 	( 2.4e24 	, { 0.0 , 2.2e11 , 0.0 } , { 24000 , 0.0 , 0.0 });
+	body sun	( "sun" , 2.0e30 	, { 0.0 , 0.0 , 0.0 } 	 , { 0.0 , 0.0 , 0.0 });
+	body mercury( "mercury" , 3.285e23 	, { 0.0 , 5.7e10 , 0.0 } , { 47000 , 0.0 , 0.0 });
+	body venus 	( "venus" , 4.8e24 	, { 0.0 , 1.1e11 , 0.0 } , { 35000 , 0.0 , 0.0 });
+	body earth 	( "earch" , 6.0e24 	, { 0.0 , 1.5e11 , 0.0 } , { 30000 , 0.0 , 0.0 });
+	body mars 	( "mars" , 2.4e24 	, { 0.0 , 2.2e11 , 0.0 } , { 24000 , 0.0 , 0.0 });
 
 	vector<body> bodies = { sun , mercury , venus , earth , mars };
 
+	// for ( int i = 0 ; i < bodies.size() ; i++ ) {
+	// 	print_body( &bodies[i] );
+	// }
+
 	space_system solar_system;
 	create_system( &bodies , &solar_system );
+
+	vector<space_system> system_states;
+	system_states.push_back( solar_system );
+	double march = 1.0;
+
+	simulate_system( &solar_system , 0.0 , march , FORWARD_EULER );
+	system_states.push_back( solar_system );
+
+	vector<body> bodies_resolved;
+	resolve_system( &solar_system , &bodies_resolved );
+
+	for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
+		print_body( &bodies_resolved[i] );
+	}
 
 	cout << endl;
 
