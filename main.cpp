@@ -37,7 +37,7 @@ int main ( void )
 	}
 
 	cout << "...testing if acceleration function is correct... " << endl;
-	bodies.erase(bodies.end());
+	bodies.pop_back();
 	vector<double> acceleration_a;
 	space_system space_two;
 	create_system( &bodies , &space_two );
