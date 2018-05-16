@@ -3,10 +3,8 @@
 #include "ode_solvers.hpp"
 #include "wrapper.hpp"
 #include "test_functions.hpp"
-#include <sstream>
-#include <string>
-#include <iostream>
-#include <fstream>
+#include "user_input_functions.hpp"
+
 
 int main ( void )
 {
@@ -37,32 +35,14 @@ int main ( void )
     string file_path;
     cout << "Enter file path for planetary system's data: " << endl;
 //    cin >> file_path;
+//    file_path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test1.txt";
     file_path = "user_input/test1.txt";
-
     vector<body> bodies_user_input_file;
     
-    ifstream myfile( file_path );
-    if (myfile.is_open()){
-        myfile.ignore(2048 , '\n');
-        while( !myfile.eof() ){
-            string name;
-            double mass , x, y, z, vx, vy, vz;
-            vector<double> position, velocity;
-            myfile >> name >> mass >> x >> y >> z >> vx >> vy >> vz;
-            position = {x,y,z};
-            velocity = {vx,vy,vz};
-            body planet_n( mass, position, velocity );
-            bodies_user_input_file.push_back(planet_n);
-        }
-        myfile.close();
-        
-        // note that the last entry is read twice when using eof
-        // so use pop_back to get rid of extra entry
-        bodies_user_input_file.pop_back();
+    parseInput( &file_path, &bodies_user_input_file);
+    for ( int i = 0 ; i < bodies_user_input_file.size() ; i++ ) {
+        print_body( &bodies_user_input_file[i] );
     }
-    else cout << "Unable to open file " << endl;
-    space_system solar_system_user_input;
-    create_system( &bodies_user_input_file , &solar_system_user_input );
     
     cout << endl;
 
