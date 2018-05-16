@@ -4,32 +4,69 @@
 #include "wrapper.hpp"
 #include "test_functions.hpp"
 #include <sstream>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 int main ( void )
 {
-    int n_planets;
-    cout << "Enter the number of planets: " << endl;
-    cin >> n_planets;
+//    int n_planets;
+//    cout << "Enter the number of planets: " << endl;
+//    cin >> n_planets;
+//
+//    vector<body> bodies_user_input;
+//
+//    for(int planet = 0; planet< n_planets; planet++){
+//
+//        double planet_mass = 0;
+//        double position;
+//        vector<double> planet_position;
+//        cout << "Enter planet #" << planet << " mass: " << endl;
+//        cin >> planet_mass;
+//        cout << "Enter planet position x, y, z : " << endl;
+//        string line;
+//        getline( cin, line);
+//        istringstream stream(line);
+//        while (stream >> position)
+//            planet_position.push_back(position);
+//        body planet_n( planet_mass, planet_position, planet_position );
+//        bodies_user_input.push_back(planet_n);
+//    }
     
-    vector<body> bodies_user_input;
-    
-    for(int planet = 0; planet< n_planets; planet++){
-        
-        double planet_mass = 0;
-        double position;
-        vector<double> planet_position;
-        cout << "Enter planet #" << planet << " mass: " << endl;
-        cin >> planet_mass;
-        cout << "Enter planet position x, y, z : " << endl;
-        string line;
-        getline( cin, line);
-        istringstream stream(line);
-        while (stream >> position)
-            planet_position.push_back(position);
-        body planet_n( planet_mass, planet_position, planet_position );
-        bodies_user_input.push_back(planet_n);
-    }
+    cout << " --------------- Creating the Inner Solar System --------------- " << endl << endl;
+    string file_path;
+    cout << "Enter file path for planetary system's data: " << endl;
+//    cin >> file_path;
+    file_path = "user_input/test1.txt";
 
+    vector<body> bodies_user_input_file;
+    
+    ifstream myfile( file_path );
+    if (myfile.is_open()){
+        myfile.ignore(2048 , '\n');
+        while( !myfile.eof() ){
+            string name;
+            double mass , x, y, z, vx, vy, vz;
+            vector<double> position, velocity;
+            myfile >> name >> mass >> x >> y >> z >> vx >> vy >> vz;
+            position = {x,y,z};
+            velocity = {vx,vy,vz};
+            body planet_n( mass, position, velocity );
+            bodies_user_input_file.push_back(planet_n);
+        }
+        myfile.close();
+        
+        // note that the last entry is read twice when using eof
+        // so use pop_back to get rid of extra entry
+        bodies_user_input_file.pop_back();
+    }
+    else cout << "Unable to open file " << endl;
+    space_system solar_system_user_input;
+    create_system( &bodies_user_input_file , &solar_system_user_input );
+    
+    cout << endl;
+
+    
 	cout << endl << boolalpha;
 	cout << " --------------- Testing Celestial Body Functions --------------- " << endl << endl;
 
