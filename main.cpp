@@ -3,10 +3,33 @@
 #include "ode_solvers.hpp"
 #include "wrapper.hpp"
 #include "test_functions.hpp"
-
+#include <sstream>
 
 int main ( void )
 {
+    int n_planets;
+    cout << "Enter the number of planets: " << endl;
+    cin >> n_planets;
+    
+    vector<body> bodies_user_input;
+    
+    for(int planet = 0; planet< n_planets; planet++){
+        
+        double planet_mass = 0;
+        double position;
+        vector<double> planet_position;
+        cout << "Enter planet #" << planet << " mass: " << endl;
+        cin >> planet_mass;
+        cout << "Enter planet position x, y, z : " << endl;
+        string line;
+        getline( cin, line);
+        istringstream stream(line);
+        while (stream >> position)
+            planet_position.push_back(position);
+        body planet_n( planet_mass, planet_position, planet_position );
+        bodies_user_input.push_back(planet_n);
+    }
+
 	cout << endl << boolalpha;
 	cout << " --------------- Testing Celestial Body Functions --------------- " << endl << endl;
 
@@ -42,5 +65,6 @@ int main ( void )
 	create_system( &bodies , &solar_system );
 
 	cout << endl;
+
 	return 0;
 }
