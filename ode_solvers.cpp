@@ -2,34 +2,34 @@
 
 void ode_solvers::ODE_SOLVER( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
 	double time , double& march , vector<double>* parameters , vector<double>* input ,
-	vector<double>* new_values , int method , bool adaptive , double e_rel , double e_abs )
+	vector<double>* slope , int method , bool adaptive , double e_rel , double e_abs )
 {
-	vector<double> phi , update;
+	//vector<double> phi , update;
 
 	switch (method){
 		case FORWARD_EULER:{
-			forward_euler( function , time , march , parameters , input , &phi );
+			forward_euler( function , time , march , parameters , input , slope );
 			break;
 		}
 		case HEUN_ONE: {
-			heun_oneStep( function , time , march , parameters , input , &phi );
+			heun_oneStep( function , time , march , parameters , input , slope );
 			break;
 		}
 		case HEUN_ITR: {
-			heun_iterative( function , time , march , parameters , input , &phi , e_rel );
+			heun_iterative( function , time , march , parameters , input , slope , e_rel );
 			break;
 		}
 		case RK34: {
-			rk34( function , time , march , parameters , input , &phi , false , e_rel , e_abs );
+			rk34( function , time , march , parameters , input , slope , false , e_rel , e_abs );
 			break;
 		}
 		case RK34A: {
-			rk34( function , time , march , parameters , input , &phi , true , e_rel , e_abs );
+			rk34( function , time , march , parameters , input , slope , true , e_rel , e_abs );
 			break;
 		}
 	}
-	scaleVector( march , &phi , &update );
-	vectorSum( input , &update , new_values );
+	// scaleVector( march , &phi , &update );
+	// vectorSum( input , &update , new_values );
 	return;
 }
 

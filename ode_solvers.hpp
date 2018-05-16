@@ -11,7 +11,7 @@ namespace ode_solvers
 {
 void ODE_SOLVER( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
 	double time , double& march , vector<double>* parameters , vector<double>* input ,
-	vector<double>* new_values , int method , bool adaptive = false , double e_rel = 1e-4 , double e_abs = 1e-7 );
+	vector<double>* slope , int method , bool adaptive = false , double e_rel = 1e-4 , double e_abs = 1e-7 );
 
 void forward_euler ( void (*function)( double, vector<double>* , vector<double>* , vector<double>* ) ,
 	double time , double& march , vector<double>* parameters , vector<double>* input , 

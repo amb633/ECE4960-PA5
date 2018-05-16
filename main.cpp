@@ -1,7 +1,9 @@
 #include "utility_functions.hpp"
 #include "celestial_body_functions.hpp"
 #include "ode_solvers.hpp"
+#include "wrapper.hpp"
 #include "test_functions.hpp"
+
 
 int main ( void )
 {
@@ -25,6 +27,19 @@ int main ( void )
 	cout << "...testing non adaptive rk34... " << test_non_adaptive_rk34() << endl << endl;
 
 	cout << "...testing adaptive rk34... " << test_adaptive_rk34() << endl << endl;
+
+
+	cout << " --------------- Creating the Inner Solar System --------------- " << endl << endl;
+	body sun	( 2.0e30 	, { 0.0 , 0.0 , 0.0 } 	 , { 0.0 , 0.0 , 0.0 });
+	body mercury( 3.285e23 	, { 0.0 , 5.7e10 , 0.0 } , { 47000 , 0.0 , 0.0 });
+	body venus 	( 4.8e24 	, { 0.0 , 1.1e11 , 0.0 } , { 35000 , 0.0 , 0.0 });
+	body earth 	( 6.0e24 	, { 0.0 , 1.5e11 , 0.0 } , { 30000 , 0.0 , 0.0 });
+	body mars 	( 2.4e24 	, { 0.0 , 2.2e11 , 0.0 } , { 24000 , 0.0 , 0.0 });
+
+	vector<body> bodies = { sun , mercury , venus , earth , mars };
+
+	space_system solar_system;
+	create_system( &bodies , &solar_system );
 
 	cout << endl;
 	return 0;

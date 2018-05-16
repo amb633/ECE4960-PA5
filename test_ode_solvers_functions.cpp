@@ -23,8 +23,10 @@ bool test_forward_euler()
 	vector<double> values;
 	for ( double time = 0.0 ; time < 5.0 ; time += march ){
 		values.push_back( old_values[0] );
-		vector<double> new_values;
-		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , FORWARD_EULER );
+		vector<double> slope , new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &slope , FORWARD_EULER );
+		scaleVector( march , &slope , &new_values );
+		vectorSum( &old_values , &new_values , &new_values );
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
@@ -47,8 +49,10 @@ bool test_heun_one()
 	vector<double> values;
 	for ( double time = 0.0 ; time < 5.0 ; time += march ){
 		values.push_back( old_values[0] );
-		vector<double> new_values;
-		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , HEUN_ONE );
+		vector<double> slope , new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &slope , HEUN_ONE );
+		scaleVector( march , &slope , &new_values );
+		vectorSum( &old_values , &new_values , &new_values );
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
@@ -71,8 +75,10 @@ bool test_heun_iterative()
 	vector<double> values;
 	for ( double time = 0.0 ; time < 5.0 ; time += march ){
 		values.push_back( old_values[0] );
-		vector<double> new_values;
-		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , HEUN_ITR );
+		vector<double> slope , new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &slope , HEUN_ITR );
+		scaleVector( march , &slope , &new_values );
+		vectorSum( &old_values , &new_values , &new_values );
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
@@ -95,8 +101,10 @@ bool test_non_adaptive_rk34()
 	vector<double> values;
 	for ( double time = 0.0 ; time < 5.0 ; time += march ){
 		values.push_back( old_values[0] );
-		vector<double> new_values;
-		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , RK34 );
+		vector<double> slope , new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &slope , RK34 );
+		scaleVector( march , &slope , &new_values );
+		vectorSum( &old_values , &new_values , &new_values );
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
@@ -119,8 +127,10 @@ bool test_adaptive_rk34()
 	vector<double> values;
 	for ( double time = 0.0 ; time < 5.0 ; time += march ){
 		values.push_back( old_values[0] );
-		vector<double> new_values;
-		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , RK34A );
+		vector<double> slope , new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &slope , RK34A );
+		scaleVector( march , &slope , &new_values );
+		vectorSum( &old_values , &new_values , &new_values );
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
