@@ -69,16 +69,29 @@ int main ( void )
 	vector<space_system> system_states;
 	system_states.push_back( solar_system );
 	double march = 24.0*60.0*60.0; // march should be in seconds
+	double time = 0.0;
 
-	simulate_system( &solar_system , 0.0 , march , FORWARD_EULER );
-	system_states.push_back( solar_system );
+	for ( size_t i = 0 ; i < 10 ; i++ ){
+		time = i*march;
+		simulate_system( &solar_system , time , march , FORWARD_EULER );
+		system_states.push_back( solar_system );
+		vector<body> bodies_resolved;
+		resolve_system( &solar_system , &bodies_resolved );
 
-	vector<body> bodies_resolved;
-	resolve_system( &solar_system , &bodies_resolved );
-
-	for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
-		print_body( &bodies_resolved[i] );
+		for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
+			print_body( &bodies_resolved[i] );
+		}
 	}
+
+	// simulate_system( &solar_system , 0.0 , march , FORWARD_EULER );
+	// system_states.push_back( solar_system );
+
+	// vector<body> bodies_resolved;
+	// resolve_system( &solar_system , &bodies_resolved );
+
+	// for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
+	// 	print_body( &bodies_resolved[i] );
+	// }
 
 	cout << endl;
 

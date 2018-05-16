@@ -27,12 +27,11 @@ for day = 1:10
     velocities = velocities + accelerations * march;
     
     %% display the information
-    disp ( "day = " ); disp ( day );
     for i = 1:length(mass)
         disp( names(i) );
         %disp( mass(i) );
-        disp( positions(i,:) );
-        disp( velocities(i,:) );
-        disp( accelerations(i,:) );
+        disp( positions(i,:)*1e-11 );
+        disp( velocities(i,:)*1e-4 );
+        disp( 
     end
 end
