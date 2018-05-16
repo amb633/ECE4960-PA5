@@ -2,25 +2,32 @@
 
 #include "utility_functions.hpp"
 
-namespace celestial_functions
+struct body
 {
-	struct body 
-	{
-		double mass;
-		vector<double> position;
-		vector<double> velocity;
-		vector<double> acceleration;
+	double mass;
+	vector<double> position;
+	vector<double> velocity;
+	vector<double> acceleration;
 
-		body( double m , vector<double> p , vector<double> v ) : 
-			mass(m) , position(p) , velocity(v) , acceleration( {0.0 , 0.0 , 0.0} ) {};
-		body( body* b ) :
-			mass( (*b).mass ) , position( (*b).position ) , velocity( (*b).velocity ) , acceleration( (*b).acceleration ) {};
-	};
+	body() : mass(0.0) , position({0.0 , 0.0 , 0.0}) , velocity({0.0 , 0.0 , 0.0}) , acceleration({0.0 , 0.0 , 0.0}) {};
 
-	void printBody( body* which_body );
+	body( double m , vector<double> p , vector<double> v ) : 
+		mass(m) , position(p) , velocity(v) , acceleration( {0.0 , 0.0 , 0.0} ) {};
 
-	void find_acceleration( double time , int which_body , vector<body>* celestial_bodies , vector<double>* acceleration );
+	body( body* b ) :
+		mass( (*b).mass ) , position( (*b).position ) , velocity( (*b).velocity ) , acceleration( (*b).acceleration ) {};
 
-	void planet_function( double time , int which_body , vector<body>* celestial_bodies , body* output );
+};
 
-}
+struct space_system
+{
+	vector<double> n_mass;
+	vector<vector<double>> n_state;
+	vector<vector<double>> n_state_dot;
+};
+
+void print_body( body* which_body );
+
+void clear_system( space_system* space );
+void create_system ( vector<body>* bodies , space_system* space );
+void resolve_system( space_system* space , vector<body>* bodies );
