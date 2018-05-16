@@ -49,6 +49,11 @@ int main ( void )
 	cout << " acceleration of A in 03 body system : ";
 	printVector( &acceleration_a );
 
+	cout << endl << endl;
+
+	cout << " --------------- Testing ODE Solver Functions --------------- " << endl;
+
+
 	cout << endl;
 	return 0;
 }
