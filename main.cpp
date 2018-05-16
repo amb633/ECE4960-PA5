@@ -87,7 +87,7 @@ int main ( void )
 
 	vector<space_system> system_states;
 	system_states.push_back( solar_system );
-	double march = 1.0;
+	double march = 24.0*60.0*60.0; // march should be in seconds
 
 	simulate_system( &solar_system , 0.0 , march , FORWARD_EULER );
 	system_states.push_back( solar_system );
