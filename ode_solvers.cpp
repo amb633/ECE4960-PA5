@@ -15,6 +15,10 @@ void ode_solvers::ODE_SOLVER( void (*function) ( double , vector<double>* , vect
 			heun_oneStep( function , time , march , parameters , input , &phi );
 			break;
 		}
+		case HEUN_ITR: {
+			heun_iterative( function , time , march , parameters , input , &phi , e_rel );
+			break;
+		}
 		case RK34: {
 			rk34( function , time , march , parameters , input , &phi , false , e_rel , e_abs );
 			break;
@@ -55,6 +59,26 @@ void ode_solvers::heun_oneStep( void (*function) ( double , vector<double>* , ve
 	scaleVector( 0.5 , &sum , slope );
 	return;
 }
+
+void ode_solvers::heun_iterative ( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
+	double time , double& march , vector<double>* parameters , vector<double>* input , 
+	vector<double>* slope , double e_rel )
+{
+	double error = 1.0;
+	vector<double> current_update , current_prediction;
+	current_update = (*input);
+	while ( error > e_rel ){
+		heun_oneStep( function , time , march , parameters , &current_update , &current_prediction );
+		double temp_1 , temp_2;
+		vectorNorm( &current_prediction , &current_update , temp_1 );
+		vectorNorm( &current_prediction , temp_2 );
+		error = temp_1/ temp_2;
+		current_update = current_prediction;
+	}
+	(*slope) = current_prediction;
+	return;
+}
+
 
 void ode_solvers::rk34 ( void (*function)( double , vector<double>* , vector<double>* , vector<double>* ) , 
 	double time , double& march , vector<double>* parameters , vector<double>* input , 

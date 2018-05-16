@@ -61,6 +61,30 @@ bool test_heun_one()
 	return flag;
 }
 
+bool test_heun_iterative() 
+{
+	bool flag = true;
+	void (*ode_exp_fcn)( double , vector<double>* , vector<double>* , vector<double>* ) = ode_exponential_function;
+	double march = 1.0;
+	vector<double> parameters = { 4.0 , 0.8 , -0.5 };
+	vector<double> old_values = {2.0};
+	vector<double> values;
+	for ( double time = 0.0 ; time < 5.0 ; time += march ){
+		values.push_back( old_values[0] );
+		vector<double> new_values;
+		ode_solvers::ODE_SOLVER( ode_exp_fcn , time , march , &parameters , &old_values , &new_values , HEUN_ITR );
+		old_values.erase( old_values.begin(), old_values.end());
+		old_values = new_values;
+	}
+	vector<double> expected_values = {2.0 , 5.96432 , 14.7871 , 34.4228 , 78.1228 };
+	vectorDiff ( &expected_values , &values , &values );
+
+	for ( int i = 0 ; i < values.size() ; i++ ){
+		if ( abs( values[i] ) > 1e-4 ) flag = false;
+	}
+	return flag;
+}
+
 bool test_non_adaptive_rk34()
 {
 	bool flag = true;

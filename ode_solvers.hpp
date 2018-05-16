@@ -3,8 +3,9 @@
 
 #define FORWARD_EULER 0
 #define HEUN_ONE 1
-#define RK34 2
-#define RK34A 3
+#define HEUN_ITR 2
+#define RK34 3
+#define RK34A 4
 
 namespace ode_solvers
 {
@@ -19,6 +20,10 @@ void forward_euler ( void (*function)( double, vector<double>* , vector<double>*
 void heun_oneStep ( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
 	double time , double& march , vector<double>* parameters , vector<double>* input , 
 	vector<double>* slope );
+
+void heun_iterative ( void (*function) ( double , vector<double>* , vector<double>* , vector<double>* ) ,
+	double time , double& march , vector<double>* parameters , vector<double>* input , 
+	vector<double>* slope , double e_rel );
 
 void rk34 ( void (*function)( double , vector<double>* , vector<double>* , vector<double>* ) , 
 	double time , double& march , vector<double>* parameters , vector<double>* input , 

@@ -20,6 +20,8 @@ int main ( void )
 	
 	cout << "...testing heun one step... : " << test_heun_one() << endl << endl;
 
+	cout << "...testing heun one iterative... : " << test_heun_iterative() << endl << endl;
+
 	cout << "...testing non adaptive rk34... " << test_non_adaptive_rk34() << endl << endl;
 
 	cout << "...testing adaptive rk34... " << test_adaptive_rk34() << endl << endl;

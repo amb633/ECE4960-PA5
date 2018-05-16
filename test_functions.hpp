@@ -9,6 +9,7 @@ bool test_acceleration_calculation();
 
 bool test_forward_euler();
 bool test_heun_one();
+bool test_heun_iterative();
 bool test_non_adaptive_rk34();
 bool test_adaptive_rk34();
 
