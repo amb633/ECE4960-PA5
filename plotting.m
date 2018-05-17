@@ -1,6 +1,6 @@
 clc , clear , close all;
 
-filenames = {'ForwardEuler_Results.txt' ; 'HEUN_ONE_Results.txt' ; ...
+filenames = {'FORWARD_EULER_Results.txt' ; 'HEUN_ONE_Results.txt' ; ...
     'RK34_Results.txt' ; 'RK34A_Results.txt'};
 
 for f = 1:length(filenames) %specifiy index if you only want to plot one
