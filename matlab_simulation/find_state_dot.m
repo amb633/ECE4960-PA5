@@ -1,4 +1,4 @@
-function [accelerations] = find_state_dot(mass,positions)
+function [accelerations] = find_state_dot( ~ , mass, positions)
 %Function to calculate the acceleration of each body
     %given the whole systems mass and position
     
@@ -21,5 +21,6 @@ for id = 1:length( mass )
     
     acc = -g_const*acc;
     accelerations(id , : ) = acc;
+end
 end
 

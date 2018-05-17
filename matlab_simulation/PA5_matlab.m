@@ -1,5 +1,7 @@
 clc , clear , close all;
 
+days = 10;
+
 names = [ "sun" , "mercury" , "venus" , "earth" , "mars" ];
 
 mass = [ 2e30 ; 3.285e23 ; 4.8e24 ; 6e24 ; 2.4e24 ];
@@ -15,24 +17,45 @@ velocities = [ 0 , 0 , 0 ;
                30000 , 0 , 0;
                24000 , 0 , 0];
 
-for day = 1:10
+sun_position_log = zeros( days+1 , 3 );
+mercury_position_log = zeros( days+1 , 3 );
+venus_position_log = zeros( days+1 , 3 );
+earth_position_log = zeros( days+1 , 3 );
+mars_position_log = zeros( days+1 , 3 );
+
+sun_position_log( 1 , : ) = positions( 1 , : );
+mercury_position_log( 1 , : ) = positions( 2 , : );
+venus_position_log( 1 , : ) = positions( 3 , : );
+earth_position_log( 1 , : ) = positions( 4 , : );
+mars_position_log( 1 , : ) = positions( 5 , : );
+
+march = 24*60*60;
+
+for day = 1:days
     %% calculate the accelerations of each body
-    accelerations = find_state_dot ( mass , positions );
+    time = day * 24 * 60 * 60;
+%     [ accelerations , march ] = forward_euler( time , march , mass , positions );
+    [ accelerations , march ] = RK34( time , march , mass , positions , false , 1e-4 , 1e-7 );
 
     %% calculate position update
-    march = 24*60*60;
+    
     positions = positions + velocities * march;
 
     %% calculate the velocity update
     velocities = velocities + accelerations * march;
     
-    %% display the information
-    disp ( "day = " ); disp ( day );
-    for i = 1:length(mass)
-        disp( names(i) );
-        %disp( mass(i) );
-        disp( positions(i,:) );
-        disp( velocities(i,:) );
-        disp( accelerations(i,:) );
-    end
+    sun_position_log( day+1 , : ) = positions( 1 , : );
+    mercury_position_log( day+1 , : ) = positions( 2 , : );
+    venus_position_log( day+1 , : ) = positions( 3 , : );
+    earth_position_log( day+1 , : ) = positions( 4 , : );
+    mars_position_log( day+1 , : ) = positions( 5 , : );
+    
 end
+
+figure(1); hold on;
+plot3( sun_position_log(:,1) , sun_position_log(:,2) , sun_position_log(:,3) , ...
+        'ro' , 'MarkerSize' , 14 , 'MarkerFaceColor' , 'r' );
+plot3( mercury_position_log(:,1) , mercury_position_log(:,2) , mercury_position_log(:,3) );
+plot3( venus_position_log(:,1) , venus_position_log(:,2) , venus_position_log(:,3) );
+plot3( earth_position_log(:,1) , earth_position_log(:,2) , earth_position_log(:,3) );
+plot3( mars_position_log(:,1) , mars_position_log(:,2) , mars_position_log(:,3) );

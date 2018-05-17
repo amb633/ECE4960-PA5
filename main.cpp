@@ -73,7 +73,7 @@ int main ( void )
 
 	for ( size_t i = 0 ; i < 10 ; i++ ){
 		time = i*march;
-		simulate_system( &solar_system , time , march , FORWARD_EULER );
+		simulate_system( &solar_system , time , march , RK34 );
 		system_states.push_back( solar_system );
 		vector<body> bodies_resolved;
 		resolve_system( &solar_system , &bodies_resolved );
