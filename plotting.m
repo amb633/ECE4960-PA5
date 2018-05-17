@@ -3,13 +3,10 @@ clc , clear , close all;
 filenames = {'ForwardEuler_Results.txt' ; 'HEUN_ONE_Results.txt' ; ...
     'RK34_Results.txt' ; 'RK34A_Results.txt'};
 
-figure(); hold on; grid on;
-
-for f = 1:length(filenames)
+for f = 1:length(filenames) %specifiy index if you only want to plot one
 filename = string(filenames{f});
 
 % open desired file
-% filename = 'RK34A_Results.txt';
 fileID = fopen(filename);
 
 % find the number of data entries by counting the number of lines
@@ -53,6 +50,7 @@ fclose(fileID);
 
 % plot the parsed data
 % assuming that the first body is some central body
+figure(); hold on; grid on;
 plot3( position_log(:,1,1) , position_log(:,2,1) , position_log(:,3,1) , ...
         'ro' , 'MarkerSize' , 14 , 'MarkerFaceColor' , 'r');
     
