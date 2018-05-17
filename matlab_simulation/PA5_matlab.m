@@ -1,6 +1,6 @@
 clc , clear , close all;
 
-days = 10;
+days = 500;
 
 names = [ "sun" , "mercury" , "venus" , "earth" , "mars" ];
 
@@ -34,8 +34,8 @@ march = 24*60*60;
 for day = 1:days
     %% calculate the accelerations of each body
     time = day * 24 * 60 * 60;
-%     [ accelerations , march ] = forward_euler( time , march , mass , positions );
-    [ accelerations , march ] = RK34( time , march , mass , positions , false , 1e-4 , 1e-7 );
+    [ accelerations , march ] = forward_euler( time , march , mass , positions );
+%     [ accelerations , march ] = RK34( time , march , mass , positions , false , 1e-4 , 1e-7 );
 
     %% calculate position update
     
