@@ -72,12 +72,17 @@ void saveOutput( vector<vector<double>>* system_states, vector<string>* names, v
     full_log << "time    ";
     for( int n = 0; n < names->size(); n++){
         full_log << (*names)[n] << "_pos_x  " << (*names)[n] << "_pos_y  " << (*names)[n] << "_pos_z    ";
+        cout << (*names)[n] << "_pos_x  " << (*names)[n] << "_pos_y  " << (*names)[n] << "_pos_z    ";
+
     }
     full_log << endl;
     
     for( int i = 0; i< time_log->size(); i++){
         full_log << scientific;
+        cout << scientific;
+
         full_log << (*time_log)[i] << "    ";
+        cout << (*time_log)[i] << "    ";
         
         for( int n = 0; n < names->size(); n++){
             vector<double>::iterator position_start = (*system_states)[i].begin() + 6*n;
@@ -85,9 +90,14 @@ void saveOutput( vector<vector<double>>* system_states, vector<string>* names, v
             vector<double> n_body_pos(position_start, position_end);
             for( int p = 0; p<n_body_pos.size(); p++){
                 full_log << n_body_pos[p] << "  ";
+                cout << n_body_pos[p] << "  ";
             }
             full_log << "  ";
+            cout << "  ";
+
         }
         full_log << endl;
+        cout << "  ";
+
     }
 }

@@ -25,46 +25,16 @@ int main ( void )
 
 	cout << "...testing heun iterative... : " << test_heun_iterative() << endl << endl;
 
-	cout << "...testing non adaptive rk34... " << test_non_adaptive_rk34() << endl << endl;
+	cout << "...testing non adaptive rk34... : " << test_non_adaptive_rk34() << endl << endl;
 
-	cout << "...testing adaptive rk34... " << test_adaptive_rk34() << endl << endl;
+	cout << "...testing adaptive rk34... : " << test_adaptive_rk34() << endl << endl;
 
+	cout << " --------------- Testing Wrapper Functions --------------- " << endl;
 
-	cout << " --------------- Creating the Inner Solar System --------------- " << endl << endl;
-	body sun	( "sun" , 2.0e30 	, { 0.0 , 0.0 , 0.0 } 	 , { 0.0 , 0.0 , 0.0 });
-	body mercury( "mercury" , 3.285e23 	, { 0.0 , 5.7e10 , 0.0 } , { 47000 , 0.0 , 0.0 });
-	body venus 	( "venus" , 4.8e24 	, { 0.0 , 1.1e11 , 0.0 } , { 35000 , 0.0 , 0.0 });
-	body earth 	( "earth" , 6.0e24 	, { 0.0 , 1.5e11 , 0.0 } , { 30000 , 0.0 , 0.0 });
-	body mars 	( "mars" , 2.4e24 	, { 0.0 , 2.2e11 , 0.0 } , { 24000 , 0.0 , 0.0 });
+	if ( test_wrapper() ) 
+		cout << "...wrapper function was successful..."  << endl << endl;
+	else cout << "..wrapper function failed... " << endl << endl;
 
-	vector<body> bodies = { sun , mercury , venus , earth , mars };
-
-	// for ( int i = 0 ; i < bodies.size() ; i++ ) {
-	// 	print_body( &bodies[i] );
-	// }
-
-    cout << " --------------- Running Solar System Simulation with Forward Euler --------------- " << endl << endl;
-	// space_system solar_system;
-	// create_system( &bodies , &solar_system );
-
-	// vector<vector<double>> system_states;
-	// system_states.push_back( solar_system.n_state );
-	// double march = 24.0*60.0*60.0; // march should be in seconds
-	// double time = 0.0;
-
-	// for ( size_t i = 0 ; i < 100 ; i++ ){
-	// 	time = i*march;
-	// 	simulate_system( &solar_system , time , march , FORWARD_EULER );
-	// 	system_states.push_back( solar_system.n_state );
-	// 	vector<body> bodies_resolved;
-	// 	resolve_system( &solar_system , &bodies_resolved );
-
-	// 	for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
-	// 		print_body( &bodies_resolved[i] );
-	// 	}
-	// }
-
- //    cout << endl;
 
     cout << " --------------- Using User Interface to Create Solar System --------------- " << endl << endl;
     string file_path;

@@ -1,6 +1,6 @@
 clc , clear , close all;
-
-days = 500;
+format shortEng;
+days = 10;
 
 names = [ "sun" , "mercury" , "venus" , "earth" , "mars" ];
 
@@ -50,6 +50,14 @@ for day = 1:days
     earth_position_log( day+1 , : ) = positions( 4 , : );
     mars_position_log( day+1 , : ) = positions( 5 , : );
     
+    disp( " day : " ) , disp(day);
+    for ib = 1:length(mass)
+        disp( names(ib) );
+        disp( "positions : " );
+        disp( positions( ib , : ) );
+        disp( "velocities : " ); 
+        disp( velocities( ib , : ) );
+    end
 end
 
 figure(1); hold on;
