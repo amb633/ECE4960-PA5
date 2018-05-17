@@ -48,14 +48,12 @@ int main ( void )
 	create_system( &bodies , &solar_system );
 
 	vector<vector<double>> system_states;
-    vector<double> time_log;
 	system_states.push_back( solar_system.n_state );
 	double march = 24.0*60.0*60.0; // march should be in seconds
 	double time = 0.0;
 
 	for ( size_t i = 0 ; i < 100 ; i++ ){
 		time = i*march;
-        time_log.push_back(time);
 		simulate_system( &solar_system , time , march , FORWARD_EULER );
 		system_states.push_back( solar_system.n_state );
 		vector<body> bodies_resolved;
@@ -92,15 +90,18 @@ int main ( void )
     create_system( &bodies_user_input_file , &user_solar_system );
 
 
-    vector<space_system> user_system_states;
-    user_system_states.push_back( user_solar_system );
+    vector<vector<double>> user_system_states;
+    user_system_states.push_back( user_solar_system.n_state );
+    vector<double> sim_time_log;
     double uer_march = time_step_input*24.0*60.0*60.0; // march should be in seconds
     double sim_time = 0.0;
+    sim_time_log.push_back(sim_time);
 
-    for ( size_t i = 0 ; i < end_time_input ; i++ ){
+    for ( size_t i = 0 ; i <= end_time_input ; i++ ){
         sim_time = i*uer_march;
+        sim_time_log.push_back(sim_time);
         simulate_system( &user_solar_system , sim_time , uer_march , ODE_Solver_method );
-        user_system_states.push_back( user_solar_system );
+        user_system_states.push_back( user_solar_system.n_state );
         vector<body> user_bodies_resolved;
         resolve_system( &user_solar_system , &user_bodies_resolved );
 
@@ -117,7 +118,7 @@ int main ( void )
     string output_path;
     cin >> output_path;
     
-    saveOutput( &system_states, &solar_system.n_name, &time_log, output_path);
+    saveOutput( &user_system_states, &user_solar_system.n_name, &sim_time_log, output_path);
     
 
 	return 0;

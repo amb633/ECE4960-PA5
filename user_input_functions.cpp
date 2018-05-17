@@ -34,6 +34,7 @@ void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step
     cout << "   FORWARD_EULER, HEUN_ONE, HEUN_ITR, RK34, RK34A  " << endl;
     cout << "Enter which ODE Solver to use: " << endl;
     cin >> ODE_Solver_method_name;
+    cout << ODE_Solver_method_name << endl;
     if(ODE_Solver_method_name == "FORWARD_EULER"){ ODE_Solver_method = 0; }
     else if(ODE_Solver_method_name == "HEUN_ONE"){ ODE_Solver_method = 1; }
     else if(ODE_Solver_method_name == "HEUN_ITR"){ ODE_Solver_method = 2; }
@@ -43,12 +44,24 @@ void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step
         cout << "   ** did not choose a valid ODE solver method, using default: RK34 **" << endl;
         ODE_Solver_method = 3;
     }
+    cout << "You chose method: ";
+    if( ODE_Solver_method == 0 ){ ODE_Solver_method_name = "FORWARD_EULER"; }
+    else if( ODE_Solver_method == 1 ){ ODE_Solver_method_name = "HEUN_ONE"; }
+    else if( ODE_Solver_method == 2){ ODE_Solver_method_name = "HEUN_ITR"; }
+    else if( ODE_Solver_method == 3 ){ ODE_Solver_method_name = "RK34"; }
+    else if(ODE_Solver_method == 4){ ODE_Solver_method_name = "RK34A"; }
+    else{
+        ODE_Solver_method_name = "error";
+    }
+    cout << ODE_Solver_method_name << endl;
 
     cout << "Enter the time duration to run your system (in terms of days): " << endl;
     cin >> end_time;
+    cout << "Time duration: " << end_time << " days" << endl;
 
     cout << "Enter the time step to solve your system (in terms of days): " << endl;
     cin >> time_step;
+    cout << "Time step: " << time_step << " days" << endl;
 }
 
 void saveOutput( vector<vector<double>>* system_states, vector<string>* names, vector<double>* time_log, string output_file){
