@@ -43,18 +43,21 @@ int main ( void )
 	// 	print_body( &bodies[i] );
 	// }
 
+    cout << " --------------- Running Solar System Simulation with Forward Euler --------------- " << endl << endl;
 	space_system solar_system;
 	create_system( &bodies , &solar_system );
 
-	vector<space_system> system_states;
-	system_states.push_back( solar_system );
+	vector<vector<double>> system_states;
+    vector<double> time_log;
+	system_states.push_back( solar_system.n_state );
 	double march = 24.0*60.0*60.0; // march should be in seconds
 	double time = 0.0;
 
-	for ( size_t i = 0 ; i < 10 ; i++ ){
+	for ( size_t i = 0 ; i < 100 ; i++ ){
 		time = i*march;
-		simulate_system( &solar_system , time , march , RK34 );
-		system_states.push_back( solar_system );
+        time_log.push_back(time);
+		simulate_system( &solar_system , time , march , FORWARD_EULER );
+		system_states.push_back( solar_system.n_state );
 		vector<body> bodies_resolved;
 		resolve_system( &solar_system , &bodies_resolved );
 
@@ -63,18 +66,8 @@ int main ( void )
 		}
 	}
 
-	// simulate_system( &solar_system , 0.0 , march , FORWARD_EULER );
-	// system_states.push_back( solar_system );
+    cout << endl;
 
-	// vector<body> bodies_resolved;
-	// resolve_system( &solar_system , &bodies_resolved );
-
-	// for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
-	// 	print_body( &bodies_resolved[i] );
-	// }
-
-	cout << endl;
-    
     cout << " --------------- Using User Interface to Create Solar System --------------- " << endl << endl;
     string file_path;
     cout << "Enter file path for planetary system's data: " << endl;
@@ -82,17 +75,49 @@ int main ( void )
     file_path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test1.txt";
 //    file_path = "user_input/test1.txt";
     vector<body> bodies_user_input_file;
-    
+
     parseInput( &file_path, &bodies_user_input_file);
-    for ( int i = 0 ; i < bodies_user_input_file.size() ; i++ ) {
-        print_body( &bodies_user_input_file[i] );
-    }
-    
+//    for ( int i = 0 ; i < bodies_user_input_file.size() ; i++ ) {
+//        print_body( &bodies_user_input_file[i] );
+//    }
+
     cout << " --------------- Using User Interface to collect Solver Information --------------- " << endl << endl;
     cout << endl;
     int ODE_Solver_method;
     double end_time_input, time_step_input;
     getSolverInput( ODE_Solver_method, end_time_input, time_step_input );
+
+    cout << " --------------- Running User's System Simulation --------------- " << endl << endl;
+    space_system user_solar_system;
+    create_system( &bodies_user_input_file , &user_solar_system );
+
+
+    vector<space_system> user_system_states;
+    user_system_states.push_back( user_solar_system );
+    double uer_march = time_step_input*24.0*60.0*60.0; // march should be in seconds
+    double sim_time = 0.0;
+
+    for ( size_t i = 0 ; i < end_time_input ; i++ ){
+        sim_time = i*uer_march;
+        simulate_system( &user_solar_system , sim_time , uer_march , ODE_Solver_method );
+        user_system_states.push_back( user_solar_system );
+        vector<body> user_bodies_resolved;
+        resolve_system( &user_solar_system , &user_bodies_resolved );
+
+        for ( int i = 0 ; i < user_bodies_resolved.size() ; i++ ) {
+            print_body( &user_bodies_resolved[i] );
+        }
+    }
+
+    cout << endl;
+    
+//    string output_path = "ForwardEuler_Results.txt";
+    
+    cout << "Enter the output file name: " << endl;
+    string output_path;
+    cin >> output_path;
+    
+    saveOutput( &system_states, &solar_system.n_name, &time_log, output_path);
     
 
 	return 0;

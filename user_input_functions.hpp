@@ -15,9 +15,11 @@
 #include <fstream>
 #include <vector>
 #include "celestial_body_functions.hpp"
+#include <iomanip>
 
 
 void parseInput( string* path, vector<body>* input_bodies);
 void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step );
+void saveOutput( vector<vector<double>>* system_states, vector<string>* names, vector<double>* time_log, string output_file);
 
 #endif /* user_input_functions_hpp */
