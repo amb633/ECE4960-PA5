@@ -23,7 +23,7 @@ int main ( void )
 	
 	cout << "...testing heun one step... : " << test_heun_one() << endl << endl;
 
-	cout << "...testing heun one iterative... : " << test_heun_iterative() << endl << endl;
+	cout << "...testing heun iterative... : " << test_heun_iterative() << endl << endl;
 
 	cout << "...testing non adaptive rk34... " << test_non_adaptive_rk34() << endl << endl;
 
@@ -44,27 +44,27 @@ int main ( void )
 	// }
 
     cout << " --------------- Running Solar System Simulation with Forward Euler --------------- " << endl << endl;
-	space_system solar_system;
-	create_system( &bodies , &solar_system );
+	// space_system solar_system;
+	// create_system( &bodies , &solar_system );
 
-	vector<vector<double>> system_states;
-	system_states.push_back( solar_system.n_state );
-	double march = 24.0*60.0*60.0; // march should be in seconds
-	double time = 0.0;
+	// vector<vector<double>> system_states;
+	// system_states.push_back( solar_system.n_state );
+	// double march = 24.0*60.0*60.0; // march should be in seconds
+	// double time = 0.0;
 
-	for ( size_t i = 0 ; i < 100 ; i++ ){
-		time = i*march;
-		simulate_system( &solar_system , time , march , FORWARD_EULER );
-		system_states.push_back( solar_system.n_state );
-		vector<body> bodies_resolved;
-		resolve_system( &solar_system , &bodies_resolved );
+	// for ( size_t i = 0 ; i < 100 ; i++ ){
+	// 	time = i*march;
+	// 	simulate_system( &solar_system , time , march , FORWARD_EULER );
+	// 	system_states.push_back( solar_system.n_state );
+	// 	vector<body> bodies_resolved;
+	// 	resolve_system( &solar_system , &bodies_resolved );
 
-		for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
-			print_body( &bodies_resolved[i] );
-		}
-	}
+	// 	for ( int i = 0 ; i < bodies_resolved.size() ; i++ ) {
+	// 		print_body( &bodies_resolved[i] );
+	// 	}
+	// }
 
-    cout << endl;
+ //    cout << endl;
 
     cout << " --------------- Using User Interface to Create Solar System --------------- " << endl << endl;
     string file_path;

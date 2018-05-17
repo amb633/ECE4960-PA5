@@ -82,7 +82,8 @@ bool test_heun_iterative()
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
-	vector<double> expected_values = {2.0 , 5.96432 , 14.7871 , 34.4228 , 78.1228 };
+
+	vector<double> expected_values = {2.0 , 6.36095 , 15.3025 , 34.7439 , 77.7364 };
 	vectorDiff ( &expected_values , &values , &values );
 
 	for ( int i = 0 ; i < values.size() ; i++ ){

@@ -45,16 +45,19 @@ void ode_solvers::heun_oneStep( void (*function) ( double , vector<double>* , ve
 	double time , double& march , vector<double>* parameters , vector<double>* input ,
 	vector<double>* slope )
 {
-	vector<double> f1 , f2 , eu , predict , sum;
+	vector<double> f1 , f2 , predict , sum;
 
-	// predict using the forward_euler method
-	forward_euler( function , time , march , parameters , input , &eu );
-	scaleVector( march , &eu , &eu );
-	vectorSum( input , &eu , &predict );
-
+	// predict the slope
 	function( time , parameters , input , &f1 );
+
+	// calculate the prediction
+	scaleVector( march , &f1 , &predict );
+	vectorSum( input , &predict , &predict );
+
+	// correct the slope
 	function( time + march , parameters , &predict , &f2 );
 
+	// return average of prediction and correction
 	vectorSum( &f1 , &f2 , &sum );
 	scaleVector( 0.5 , &sum , slope );
 	return;
@@ -65,17 +68,39 @@ void ode_solvers::heun_iterative ( void (*function) ( double , vector<double>* ,
 	vector<double>* slope , double e_rel )
 {
 	double error = 1.0;
-	vector<double> current_update , current_prediction;
-	current_update = (*input);
+	vector<double> f1 , f2 , initial , prev_correction;
+	function( time , parameters , input , &f1 );
+
+	// first prediction 
+	scaleVector( march , &f1 , &initial );
+	vectorSum( input , &initial , &initial );
+
+	// first correction
+	function( time + march , parameters , &initial , &f2 );
+	vectorSum( &f1 , &f2 , &f2 );
+	scaleVector( 0.5*march , &f2 , &f2 );
+	vectorSum( input , &f2 , &prev_correction );
+
+	vector<double> new_slope;
+
 	while ( error > e_rel ){
-		heun_oneStep( function , time , march , parameters , &current_update , &current_prediction );
+
+		// repeat correction until within error tolerance
+		vector<double> new_correction;
+		function( time + march , parameters , &prev_correction , &new_slope );
+		vectorSum( &f1 , &new_slope , &new_slope );
+		scaleVector( 0.5*march , &new_slope , &new_slope );
+		vectorSum( input , &new_slope , &new_correction );
+
 		double temp_1 , temp_2;
-		vectorNorm( &current_prediction , &current_update , temp_1 );
-		vectorNorm( &current_prediction , temp_2 );
-		error = temp_1/ temp_2;
-		current_update = current_prediction;
+		vectorNorm( &new_correction , &prev_correction , temp_1 );
+		vectorNorm( &new_correction , temp_2 );
+		error = temp_1 / temp_2;
+
+		prev_correction = new_correction;
 	}
-	(*slope) = current_prediction;
+
+	(*slope) = new_slope;
 	return;
 }
 
