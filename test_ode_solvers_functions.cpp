@@ -82,12 +82,12 @@ bool test_heun_iterative()
 		old_values.erase( old_values.begin(), old_values.end());
 		old_values = new_values;
 	}
-	// printVector( &values );
+	printVector( &values );
 	vector<double> expected_values = {2.0 , 6.3609 , 15.302 , 34.743 , 77.735 };
 	vectorDiff ( &expected_values , &values , &values );
 
 	for ( int i = 0 ; i < values.size() ; i++ ){
-		if ( abs( values[i] ) > 1e-3 ) flag = false;
+		if ( abs( values[i] ) > 1e-4 ) flag = false;
 	}
 	return flag;
 }

@@ -83,7 +83,7 @@ void ode_solvers::heun_iterative ( void (*function) ( double , vector<double>* ,
 
 	vector<double> new_slope;
 
-	while ( error > e_rel ){
+	while ( error > 1e-7 ){
 
 		// repeat correction until within error tolerance
 		vector<double> new_correction , new_update;
@@ -91,7 +91,7 @@ void ode_solvers::heun_iterative ( void (*function) ( double , vector<double>* ,
 		vectorSum( &f1 , &new_slope , &new_slope );
 		scaleVector( 0.5 , &new_slope , &new_slope );
 		scaleVector( march , &new_slope , &new_update );
-		vectorSum( input , &new_slope , &new_correction );
+		vectorSum( input , &new_update , &new_correction );
 
 		double temp_1 , temp_2;
 		vectorNorm( &new_correction , &prev_correction , temp_1 );
