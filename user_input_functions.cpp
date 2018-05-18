@@ -7,8 +7,12 @@
 
 #include "user_input_functions.hpp"
 
-void parseInput( string* path, vector<body>* input_bodies){
-    ifstream myfile( *path );
+void parseInput( vector<body>* input_bodies){
+    string path;
+    cout << "Enter file path for planetary system's data: " << endl;
+    cin >> path;
+//    path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test2.txt";
+    ifstream myfile( path );
     if (myfile.is_open()){
         myfile.ignore(2048 , '\n');
         while( !myfile.eof() ){
@@ -64,7 +68,11 @@ void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step
     cout << "Time step: " << time_step << " days" << endl;
 }
 
-void saveOutput( vector<vector<double>>* system_states, vector<string>* names, vector<double>* time_log, string output_file){
+void saveOutput( vector<vector<double>>* system_states, vector<string>* names, vector<double>* time_log){
+    
+    cout << "Enter the output file name: " << endl;
+    string output_file;
+    cin >> output_file;
     
     ofstream full_log;
     full_log.open( output_file );
@@ -100,4 +108,6 @@ void saveOutput( vector<vector<double>>* system_states, vector<string>* names, v
         // cout << "  ";
 
     }
+    
+    cout << "Data has been saved to file: " << output_file <<endl;
 }

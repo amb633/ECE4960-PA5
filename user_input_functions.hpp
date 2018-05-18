@@ -18,8 +18,8 @@
 #include <iomanip>
 
 
-void parseInput( string* path, vector<body>* input_bodies);
+void parseInput( vector<body>* input_bodies);
 void getSolverInput( int& ODE_Solver_method, double& end_time, double& time_step );
-void saveOutput( vector<vector<double>>* system_states, vector<string>* names, vector<double>* time_log, string output_file);
+void saveOutput( vector<vector<double>>* system_states, vector<string>* names, vector<double>* time_log);
 
 #endif /* user_input_functions_hpp */

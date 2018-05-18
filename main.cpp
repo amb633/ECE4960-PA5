@@ -37,58 +37,60 @@ int main ( void )
 
 
     cout << " --------------- Using User Interface to Create Solar System --------------- " << endl << endl;
-    string file_path;
-    cout << "Enter file path for planetary system's data: " << endl;
-    //    cin >> file_path;
-    // file_path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test1.txt";
-   	file_path = "user_input/test1.txt";
+    
+    //sends an input vector to hold the planetary bodies read in
+    //from a user input file path
     vector<body> bodies_user_input_file;
+    //function parses the data from the file provided by the file path given by the user
+    parseInput (&bodies_user_input_file);
 
-    parseInput( &file_path, &bodies_user_input_file);
-//    for ( int i = 0 ; i < bodies_user_input_file.size() ; i++ ) {
-//        print_body( &bodies_user_input_file[i] );
-//    }
 
     cout << " --------------- Using User Interface to collect Solver Information --------------- " << endl << endl;
     cout << endl;
     int ODE_Solver_method;
     double end_time_input, time_step_input;
+    //gathers input information from the user including the ODE solver method to use
+    //the time duration to run the simulation for and the time step to calculate the results
     getSolverInput( ODE_Solver_method, end_time_input, time_step_input );
 
     cout << " --------------- Running User's System Simulation --------------- " << endl << endl;
+    
+    //this creates a space system for the user's input data file of planet bodies
+    
     space_system user_solar_system;
     create_system( &bodies_user_input_file , &user_solar_system );
 
-
+    //the user-defined systems inital states from input file are collected and stored
+    // in a matrix of system states which will be updates as the ODE solver steps through the duration
     vector<vector<double>> user_system_states;
     user_system_states.push_back( user_solar_system.n_state );
+    
+    //vector to log the time for each step in the ODE solver
     vector<double> sim_time_log;
-    double uer_march = time_step_input*24.0*60.0*60.0; // march should be in seconds
-    double sim_time = 0.0;
+    double user_march = time_step_input*24.0*60.0*60.0; // march converted to seconds
+    double sim_time = 0.0; //initializes the start time
     sim_time_log.push_back(sim_time);
 
+    //iterates through the time duration calculating the simulate system at each time step
     for ( size_t i = 0 ; i <= end_time_input ; i++ ){
-        sim_time = i*uer_march;
+        
+        //calculates the current time step and logs it
+        sim_time = i*user_march;
         sim_time_log.push_back(sim_time);
-        simulate_system( &user_solar_system , sim_time , uer_march , ODE_Solver_method );
+        
+        //runs the time step iteration for the ODE solver
+        simulate_system( &user_solar_system , sim_time , user_march , ODE_Solver_method );
+        //logs the current time step's system planet states (positions and velocities)
         user_system_states.push_back( user_solar_system.n_state );
+        
+        //resolves the output of the updated planetary states into the system structure
         vector<body> user_bodies_resolved;
         resolve_system( &user_solar_system , &user_bodies_resolved );
-        cout << " day : " << i << " , march = " << uer_march;
-        for ( int i = 0 ; i < user_bodies_resolved.size() ; i++ ) {
-            print_body( &user_bodies_resolved[i] );
-        }
     }
 
     cout << endl;
     
-//    string output_path = "ForwardEuler_Results.txt";
-    
-    cout << "Enter the output file name: " << endl;
-    string output_path;
-    cin >> output_path;
-    
-    saveOutput( &user_system_states, &user_solar_system.n_name, &sim_time_log, output_path);
+    saveOutput( &user_system_states, &user_solar_system.n_name, &sim_time_log);
     
 
 	return 0;
