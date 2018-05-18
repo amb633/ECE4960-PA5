@@ -5,7 +5,7 @@ filenames = {'FORWARD_EULER_Results.txt' ; 'HEUN_ONE_Results.txt' ; ...
 
 for f = 1%:length(filenames) %specifiy index if you only want to plot one
 
-filename = 'HEUN_ITR_128yr_Results.txt'; %string(filenames{f});
+filename = 'HEUN_ITR_Full_40.txt'; %string(filenames{f});
 
 % open desired file
 fileID = fopen(filename);
