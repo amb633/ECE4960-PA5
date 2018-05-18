@@ -1,5 +1,8 @@
 #include "test_functions.hpp"
-
+/* functions to test if the ode solvers are working 
+ * imported from programming assignment 4 , with slight modification 
+ * testing done with the exponential ode function from hacker practices
+ */
 void ode_exponential_function ( double time , vector<double>* parameters , 
 	vector<double>* input , vector<double>* output )
 {

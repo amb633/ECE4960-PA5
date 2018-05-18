@@ -1,5 +1,10 @@
 #include "test_functions.hpp"
 
+/* function to test if the interface between celestial body functions and ode solvers is working 
+ * testing on pseudo inner solar system for 10 days
+ * verified with results from matlab
+ */
+
 bool test_wrapper() 
 {
 	cout << endl << "...creating the inner solar system..."<< endl;
@@ -48,6 +53,7 @@ bool test_wrapper()
 	resolve_system( &solar_system , &bodies_resolved );
 
 	// compare information for each body
+	// larger error bound used due to magnitude of the system (system magnitude ~1e12)
 	bool flag = true;
 	for ( int i = 0 ; i < 5 ; i++ ){
 		// print_body( &bodies_resolved[i] );

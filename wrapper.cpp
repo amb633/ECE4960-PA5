@@ -1,5 +1,10 @@
 #include "wrapper.hpp"
 
+/* wrapper to interface between the ode solvers and the celestial body functions 
+ * finds the slope of the system in the current time step
+ * returns the state of the system in the next time step
+ */
+
 void simulate_system( space_system* space , double time , double& march , int method , 
 	bool adaptive , double e_rel , double e_abs )
 {

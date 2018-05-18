@@ -1,0 +1,11 @@
+Name	Mass	X	Y	Z	V_x	V_y	V_z
+Sun	2e30	0	0	0	0	0	0
+Mercury	3.285e23	0	5.7e10	0	47000	0	0
+Venus	4.8e24	0	1.1e11 	0	35000	0	0
+Earth	6e24	0	1.5e11	0	30000	0	0
+Mars	2.4e24	0	2.2e11	0	24000	0	0
+Jupiter	1.0e28	0	7.7e11	0	13000	0	0
+Saturn	5.7e26	0	1.4e12	0	9000	0	0
+Uranus	8.7e25	0	2.8e12	0	6835	0	0
+Neptune	1.0e26	0	4.5e12	0	5477	0	0
+Pluto	1.3e22	0	3.7e12	0	4748	0	0

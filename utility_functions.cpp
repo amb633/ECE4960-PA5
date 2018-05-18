@@ -1,5 +1,7 @@
 #include "utility_functions.hpp"
 
+/* Mass of utility functions accrued from Programming assignments 2 to 4 */
+
 void printMatrix( vector<vector<double>>* matrix )
 {
 	// assuming square matrix
