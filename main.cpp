@@ -40,6 +40,13 @@ int main ( void )
     
     //sends an input vector to hold the planetary bodies read in
     //from a user input file path
+
+    string file_path;
+    cout << "Enter file path for planetary system's data: " << endl;
+    //    cin >> file_path;
+    // file_path = "/Users/arianabruno/Desktop/ECE4960/ProgrammingAssignments/ECE4960-PA5/user_input/test1.txt";
+   	file_path = "user_input/test3.txt";
+
     vector<body> bodies_user_input_file;
     //function parses the data from the file provided by the file path given by the user
     parseInput (&bodies_user_input_file);
@@ -86,6 +93,12 @@ int main ( void )
         //resolves the output of the updated planetary states into the system structure
         vector<body> user_bodies_resolved;
         resolve_system( &user_solar_system , &user_bodies_resolved );
+
+        // cout << " day : " << i << " , march = " << uer_march;
+        // for ( int i = 0 ; i < user_bodies_resolved.size() ; i++ ) {
+        //     print_body( &user_bodies_resolved[i] );
+        // }
+
     }
 
     cout << endl;

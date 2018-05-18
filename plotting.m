@@ -4,6 +4,7 @@ filenames = {'FORWARD_EULER_Results.txt' ; 'HEUN_ONE_Results.txt' ; ...
     'HEUN_ITR_Results.txt' ; 'RK34_Results.txt' ; 'RK34A_Results.txt'};
 
 for f = 1%:length(filenames) %specifiy index if you only want to plot one
+
 filename = 'HEUN_ITR_128yr_Results.txt'; %string(filenames{f});
 
 % open desired file
@@ -54,7 +55,7 @@ figure(); hold on; grid on;
 plot3( position_log(:,1,1) , position_log(:,2,1) , position_log(:,3,1) , ...
         'ro' , 'MarkerSize' , 14 , 'MarkerFaceColor' , 'r');
     
-for id = 2:n_bodies
+for id = 1:n_bodies
     plot3( position_log(:,1,id) , position_log(:,2,id) , position_log(:,3,id) , 'LineWidth' , 2 );
 end
 
