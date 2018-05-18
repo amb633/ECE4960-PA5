@@ -90,6 +90,7 @@ int main ( void )
 
     cout << endl;
     
+    //user interface for saving the states of the systems planets at each time step
     saveOutput( &user_system_states, &user_solar_system.n_name, &sim_time_log);
     
 
