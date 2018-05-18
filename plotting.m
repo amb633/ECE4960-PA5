@@ -5,7 +5,7 @@ filenames = {'FORWARD_EULER_Results.txt' ; 'HEUN_ONE_Results.txt' ; ...
 
 for f = 1%:length(filenames) %specifiy index if you only want to plot one
 
-filename = 'HEUN_ITR_Full_40.txt'; %string(filenames{f});
+filename = 'RK34_Binary.txt'; %string(filenames{f});
 
 % open desired file
 fileID = fopen(filename);
@@ -52,8 +52,8 @@ fclose(fileID);
 % plot the parsed data
 % assuming that the first body is some central body
 figure(); hold on; grid on;
-plot3( position_log(:,1,1) , position_log(:,2,1) , position_log(:,3,1) , ...
-        'ro' , 'MarkerSize' , 14 , 'MarkerFaceColor' , 'r');
+% plot3( position_log(:,1,1) , position_log(:,2,1) , position_log(:,3,1) , ...
+%         'ro' , 'MarkerSize' , 14 , 'MarkerFaceColor' , 'r');
     
 for id = 1:n_bodies
     plot3( position_log(:,1,id) , position_log(:,2,id) , position_log(:,3,id) , 'LineWidth' , 2 );

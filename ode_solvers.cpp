@@ -148,8 +148,6 @@ void ode_solvers::rk34 ( void (*function)( double , vector<double>* , vector<dou
 		double error;
 		rk34_error( k1 , k2 , k3 , k4 , march , error );
 		rk34_new_march( input , error , e_rel , e_abs , march );
-		// max the march at 5 days (?)
-		march = min( march , 5*24.0*60.0*60.0 );
 	}
 
 	scaleVector( 7.0 , &k1 , &k1 );
